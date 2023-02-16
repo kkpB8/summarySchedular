@@ -72,7 +72,7 @@ public class ShgMemLoanEntity implements Serializable {
     private Integer interestOverdue;
 
     @Column(name = "completion_flag")
-    private Boolean completionFlag;
+    private Integer completionFlag;
 
     @Column(name = "loan_type")
     private Integer loanType;
@@ -235,13 +235,7 @@ public class ShgMemLoanEntity implements Serializable {
         return interestOverdue;
     }
 
-    public void setCompletionFlag(Boolean completionFlag) {
-        this.completionFlag = completionFlag;
-    }
 
-    public Boolean isCompletionFlag() {
-        return completionFlag;
-    }
 
     public void setLoanType(Integer loanType) {
         this.loanType = loanType;
@@ -366,9 +360,6 @@ public class ShgMemLoanEntity implements Serializable {
         this.updatedOn1 = updatedOn1;
     }
 
-    public Boolean getCompletionFlag() {
-        return completionFlag;
-    }
 
     @Override
     public String toString() {
@@ -509,8 +500,13 @@ public class ShgMemLoanEntity implements Serializable {
 	public void setRescheduleReason(Integer rescheduleReason) {
 		this.rescheduleReason = rescheduleReason;
 	}
-    
-    
-    
-    
+
+
+    public Integer getCompletionFlag() {
+        return completionFlag;
+    }
+
+    public void setCompletionFlag(Integer completionFlag) {
+        this.completionFlag = completionFlag;
+    }
 }

@@ -62,7 +62,7 @@ public class ShgMemLoanTxnEntity implements Serializable {
     private Integer loanClInt;
 
     @Column(name = "completion_flag")
-    private Boolean completionFlag;
+    private Integer completionFlag;
 
     @Column(name = "int_accrued_op")
     private Integer intAccruedOp;
@@ -223,12 +223,8 @@ public class ShgMemLoanTxnEntity implements Serializable {
         return loanClInt;
     }
 
-    public void setCompletionFlag(Boolean completionFlag) {
+    public void setCompletionFlag(Integer completionFlag) {
         this.completionFlag = completionFlag;
-    }
-
-    public Boolean isCompletionFlag() {
-        return completionFlag;
     }
 
     public void setIntAccruedOp(Integer intAccruedOp) {
@@ -363,9 +359,6 @@ public class ShgMemLoanTxnEntity implements Serializable {
         this.updatedOn1 = updatedOn1;
     }
 
-    public Boolean getCompletionFlag() {
-        return completionFlag;
-    }
 
     @Override
     public String toString() {

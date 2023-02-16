@@ -38,6 +38,10 @@ public class ShgFinTxnVouchers {
    // @Size(max=30,message="Updated by can be max of 30 chars long")
     private String updatedBy;
 
+    private Integer status;
+
+    private String remarks;
+
     public BigInteger getUid() {
         return uid;
     }
@@ -180,5 +184,21 @@ public class ShgFinTxnVouchers {
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }
