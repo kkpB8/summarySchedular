@@ -22,6 +22,13 @@ public class ShgFinTxnDetMem {
 	//@070921 mohit
 	private Integer referenceMtgNo;
 
+	private String guid;
+
+	private Integer sysGen;
+
+
+	private Integer loanNo;
+
 	public Integer getAuid() {
 		return auid;
 	}
@@ -101,6 +108,31 @@ public class ShgFinTxnDetMem {
 
 	public void setReferenceMtgNo(Integer referenceMtgNo) {
 		this.referenceMtgNo = referenceMtgNo;
+	}
+
+
+	public String getGuid() {
+		return guid;
+	}
+
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
+
+	public Integer getSysGen() {
+		return sysGen;
+	}
+
+	public void setSysGen(Integer sysGen) {
+		this.sysGen = sysGen;
+	}
+
+	public Integer getLoanNo() {
+		return loanNo;
+	}
+
+	public void setLoanNo(Integer loanNo) {
+		this.loanNo = loanNo;
 	}
 }
 

@@ -89,6 +89,16 @@ public class ShgFinTxnDetMemEntity implements Serializable {
     @Column(name = "reference_mtg_no")
     private Integer referenceMtgNo;
 
+    @Column(name = "guid")
+    private String guid;
+
+    @Column(name = "sys_gen")
+    private Integer sysGen;
+
+    @Column(name = "loan_no")
+    private Integer loanNo;
+
+
     public void setUid(BigInteger uid) {
         this.uid = uid;
     }
@@ -226,6 +236,9 @@ public class ShgFinTxnDetMemEntity implements Serializable {
                 "type=" + type + '\'' +
                 "amount=" + amount + '\'' +
                 "transDate=" + transDate1 + '\'' +
+                "guid=" + guid + '\'' +
+                "sysGen=" + sysGen + '\'' +
+                "loanNo=" + loanNo + '\'' +
                 "dateRealisation=" + dateRealisation1 + '\'' +
                 "modePayment=" + modePayment + '\'' +
                 "bankCode=" + bankCode + '\'' +
@@ -293,5 +306,30 @@ public class ShgFinTxnDetMemEntity implements Serializable {
 
     public void setReferenceMtgNo(Integer referenceMtgNo) {
         this.referenceMtgNo = referenceMtgNo;
+    }
+
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
+
+    public Integer getSysGen() {
+        return sysGen;
+    }
+
+    public void setSysGen(Integer sysGen) {
+        this.sysGen = sysGen;
+    }
+
+    public Integer getLoanNo() {
+        return loanNo;
+    }
+
+    public void setLoanNo(Integer loanNo) {
+        this.loanNo = loanNo;
     }
 }
