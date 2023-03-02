@@ -26,6 +26,12 @@ public class ShgFinTxnDetGrp {
 
 
     private String linkGuid;
+
+
+    private Integer sysGen;
+
+
+    private Integer loanNo;
    
     public Integer getAuid() {
         return auid;
@@ -170,6 +176,23 @@ public class ShgFinTxnDetGrp {
 
     public void setLinkGuid(String linkGuid) {
         this.linkGuid = linkGuid;
+    }
+
+
+    public Integer getSysGen() {
+        return sysGen;
+    }
+
+    public void setSysGen(Integer sysGen) {
+        this.sysGen = sysGen;
+    }
+
+    public Integer getLoanNo() {
+        return loanNo;
+    }
+
+    public void setLoanNo(Integer loanNo) {
+        this.loanNo = loanNo;
     }
 }
 

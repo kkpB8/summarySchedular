@@ -97,6 +97,12 @@ public class ShgFinTxnDetGrpEntity implements Serializable {
 	@Column(name = "link_guid")
 	private String linkGuid;
 
+	@Column(name = "sys_gen")
+	private Integer sysGen;
+
+	@Column(name = "loan_no")
+	private Integer loanNo;
+
 	@Override
 	public String toString() {
 		return "ShgFinTxnDetGrpEntity{" +
@@ -109,6 +115,8 @@ public class ShgFinTxnDetGrpEntity implements Serializable {
 				"amountToFrom=" + amountToFrom + '\'' +
 				"type=" + type + '\'' +
 				"linkGuid=" + linkGuid + '\'' +
+				"sysGen=" + sysGen + '\'' +
+				"loanNo=" + loanNo + '\'' +
 				"amount=" + amount + '\'' +
 				"transDate=" + transDate1 + '\'' +
 				"dateRealisation=" + dateRealisation1 + '\'' +
@@ -323,5 +331,21 @@ public class ShgFinTxnDetGrpEntity implements Serializable {
 
 	public void setLinkGuid(String linkGuid) {
 		this.linkGuid = linkGuid;
+	}
+
+	public Integer getSysGen() {
+		return sysGen;
+	}
+
+	public void setSysGen(Integer sysGen) {
+		this.sysGen = sysGen;
+	}
+
+	public Integer getLoanNo() {
+		return loanNo;
+	}
+
+	public void setLoanNo(Integer loanNo) {
+		this.loanNo = loanNo;
 	}
 }
