@@ -1032,7 +1032,10 @@ public class GroupMapper {
             federationProfileEntity.setMembershipFlag(federationProfile.getMembership_flag());
             federationProfileEntity.setRegistrationNo(federationProfile.getRegistration_no());
             federationProfileEntity.setRegistrationDate((federationProfile.getRegistration_date() != null) ? DateUtils.secondsToDateConverter(federationProfile.getRegistration_date()) : null);
-
+            federationProfile.setRegistration_no(federationProfile.getRegistration_no());
+            federationProfile.setIs_registered(federationProfile.getIs_registered());
+            federationProfile.setRegistration_no(federationProfileEntity.getRegistrationNo());
+            federationProfile.setRegistration_image(federationProfileEntity.getRegistration_image());
         }
         catch (Exception e){
             e.printStackTrace();
