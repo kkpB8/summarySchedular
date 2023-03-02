@@ -1032,6 +1032,7 @@ public class GroupMapper {
             federationProfileEntity.setMembershipFlag(federationProfile.getMembership_flag());
             federationProfileEntity.setRegistrationNo(federationProfile.getRegistration_no());
             federationProfileEntity.setRegistrationDate((federationProfile.getRegistration_date() != null) ? DateUtils.secondsToDateConverter(federationProfile.getRegistration_date()) : null);
+
         }
         catch (Exception e){
             e.printStackTrace();
