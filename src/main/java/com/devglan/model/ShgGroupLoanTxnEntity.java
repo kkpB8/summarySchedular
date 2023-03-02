@@ -59,7 +59,7 @@ public class ShgGroupLoanTxnEntity implements Serializable {
     private Integer loanClInt;
 
       @Column(name = "completion_flag")
-      private Boolean completionFlag;
+      private Integer completionFlag;
 
     @Column(name = "int_accrued_op")
     private Integer intAccruedOp;
@@ -398,13 +398,7 @@ public class ShgGroupLoanTxnEntity implements Serializable {
         this.shgMtgUid = shgMtgUid;
     }
 
-	public Boolean getCompletionFlag() {
-		return completionFlag;
-	}
 
-	public void setCompletionFlag(Boolean completionFlag) {
-		this.completionFlag = completionFlag;
-	}
 
 	public Integer getInterestRepaid() {
 		return interestRepaid;
@@ -461,7 +455,12 @@ public class ShgGroupLoanTxnEntity implements Serializable {
 	public void setIsLoanReschedule(Integer isLoanReschedule) {
 		this.isLoanReschedule = isLoanReschedule;
 	}
-	
-	
-        
+
+    public Integer getCompletionFlag() {
+        return completionFlag;
+    }
+
+    public void setCompletionFlag(Integer completionFlag) {
+        this.completionFlag = completionFlag;
+    }
 }

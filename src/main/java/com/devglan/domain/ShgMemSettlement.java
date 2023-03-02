@@ -19,7 +19,7 @@ public class ShgMemSettlement {
     private Integer loanOutstanding;
     private Integer memberDeficit;
     private Integer other;
-    private Integer other_specify;
+    private Integer otherSpecify;
     private Integer availableAmt;
     private Integer paidAmt;
     private String receiverName;
@@ -28,7 +28,7 @@ public class ShgMemSettlement {
     private Long paymentDate;
     private Integer settlementStatus;
     private Integer modePayment;
-    private String bank_code;
+    private String bankCode;
     private String transactionNo;
     private String narration;
     private Long createdOn;
@@ -141,13 +141,7 @@ public class ShgMemSettlement {
         this.other = other;
     }
 
-    public Integer getOther_specify() {
-        return other_specify;
-    }
 
-    public void setOther_specify(Integer other_specify) {
-        this.other_specify = other_specify;
-    }
 
     public Integer getAvailableAmt() {
         return availableAmt;
@@ -213,12 +207,20 @@ public class ShgMemSettlement {
         this.modePayment = modePayment;
     }
 
-    public String getBank_code() {
-        return bank_code;
+    public Integer getOtherSpecify() {
+        return otherSpecify;
     }
 
-    public void setBank_code(String bank_code) {
-        this.bank_code = bank_code;
+    public void setOtherSpecify(Integer otherSpecify) {
+        this.otherSpecify = otherSpecify;
+    }
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 
     public String getTransactionNo() {

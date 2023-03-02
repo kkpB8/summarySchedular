@@ -185,6 +185,9 @@ FederationProfileEntity {
     private  String registration_image;
 
 
+
+
+
     public String getApprover() {
 		return approver;
 	}

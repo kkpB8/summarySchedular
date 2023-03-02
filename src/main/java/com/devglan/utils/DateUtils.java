@@ -75,8 +75,8 @@ public static Date secondsToDateConverterLong(Long seconds){
         if(seconds!=0) {
             long millis = seconds;
             //19800
-            LocalDateTime date1 = LocalDateTime.ofEpochSecond(millis+19800, 0, ZoneOffset.UTC);
-            
+          LocalDateTime date1 = LocalDateTime.ofEpochSecond(millis+19800, 0, ZoneOffset.UTC);
+
             Timestamp date = Timestamp.valueOf(date1);
             return date;
         }
@@ -111,4 +111,6 @@ public static Date secondsToDateConverterLong(Long seconds){
         else
             return null;
     }
+
+
 }

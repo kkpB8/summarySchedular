@@ -79,6 +79,11 @@ public class ShgFinTxnVouchersEntity implements Serializable {
     @Column(name = "uploaded_on")
     private Timestamp uploadedOn;
 
+    @Column(name = "status")
+    private Integer status;
+    @Column(name = "remarks")
+    private String remarks;
+
     public BigInteger getUid() {
         return uid;
     }
@@ -246,4 +251,21 @@ public class ShgFinTxnVouchersEntity implements Serializable {
     public void setUploadedOn(Timestamp uploadedOn) {
         this.uploadedOn = uploadedOn;
     }
+
+
+    public Integer getStatus() {
+        return status;
     }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+}

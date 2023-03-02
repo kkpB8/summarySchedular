@@ -65,7 +65,7 @@ public class ShgGroupLoanEntity implements Serializable {
     private Integer interestDue;
 
      @Column(name = "completion_flag")
-     private Boolean completionFlag;
+     private Integer completionFlag;
 
     @Column(name = "loan_type")
     private Integer loanType;
@@ -488,13 +488,7 @@ public class ShgGroupLoanEntity implements Serializable {
 		this.shgMtgUid = shgMtgUid;
 	}
 
-	public Boolean getCompletionFlag() {
-		return completionFlag;
-	}
 
-	public void setCompletionFlag(Boolean completionFlag) {
-		this.completionFlag = completionFlag;
-	}
 
 	public Integer getInstitution() {
 		return institution;
@@ -600,8 +594,12 @@ public class ShgGroupLoanEntity implements Serializable {
 		this.drawingLimit = drawingLimit;
 	}
 
-	
-	
-    
-    
+
+    public Integer getCompletionFlag() {
+        return completionFlag;
+    }
+
+    public void setCompletionFlag(Integer completionFlag) {
+        this.completionFlag = completionFlag;
+    }
 }

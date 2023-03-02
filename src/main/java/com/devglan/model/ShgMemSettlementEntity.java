@@ -217,7 +217,6 @@ public class ShgMemSettlementEntity implements Serializable  {
     }
 
 
-
     public Integer getAvailableAmt() {
         return availableAmt;
     }
@@ -281,7 +280,6 @@ public class ShgMemSettlementEntity implements Serializable  {
     public void setModePayment(Integer modePayment) {
         this.modePayment = modePayment;
     }
-
 
 
     public String getTransactionNo() {
@@ -363,7 +361,6 @@ public class ShgMemSettlementEntity implements Serializable  {
     public void setShgMtgUid(BigInteger shgMtgUid) {
         this.shgMtgUid = shgMtgUid;
     }
-
 
     public Integer getOtherSpecify() {
         return otherSpecify;

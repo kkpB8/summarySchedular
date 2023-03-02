@@ -1513,13 +1513,14 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				}
 
 				// Images End
-				if (federationProfilePhotoDocId != null && federationProfilePhotoDocId.size()>0&&!federationProfile.getIs_registered().equals(9)) {
+				if (federationProfilePhotoDocId != null &&!federationProfile.getIs_registered().equals(1)) {
 					federationProfileEntityAfterSave.setFederationProfileDocId(
 							federationProfilePhotoDocId.get(ServiceConstants.federationoProfilePhoto));
 				}
 				if(regestrationPhotoDocId!=null&&federationProfile.getIs_registered().equals(1)){
 					federationProfileEntityAfterSave.setRegestrationDocId(
 							regestrationPhotoDocId.get(ServiceConstants.registrationImage));
+
 				}
 				if ((federationProfile.getFederation_id() != null || federationProfileEntity != null))
 					federationProfileDao.save(federationProfileEntityAfterSave);
