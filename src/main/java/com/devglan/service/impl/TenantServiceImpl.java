@@ -2851,9 +2851,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		return  loanRepaid;
 	}
 
-	private ClfMemLoanScheduleEntity getLastPaidInstallment(List<ClfMemLoanScheduleEntity> scheduleList){
+	private ClfMemLoanScheduleEntity getLastPaidInstallment(List<ClfMemLoanScheduleEntity> scheduleList, ClfMemLoanEntity clfMemLoan){
 		List<ClfMemLoanScheduleEntity> onlyPaidInstls = scheduleList.stream().filter((item)->{
-			return  item.getLastPaidDate1()!= null;
+			return  item.getLastPaidDate1()!= null && (clfMemLoan.getRescheduleDate() == null || item.getInstallmentDate1().compareTo(clfMemLoan.getRescheduleDate()) >= 0);
 		}).collect(Collectors.toList());
 		if(onlyPaidInstls.size()>0){
 			return onlyPaidInstls.get(onlyPaidInstls.size()-1);
@@ -2861,9 +2861,9 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		return  null;
 	}
 
-	private ClfGroupLoanScheduleEntity getLastPaidGrpInstallment(List<ClfGroupLoanScheduleEntity> scheduleList){
+	private ClfGroupLoanScheduleEntity getLastPaidGrpInstallment(List<ClfGroupLoanScheduleEntity> scheduleList, ClfGroupLoanEntity clfGroupLoan){
 		List<ClfGroupLoanScheduleEntity> onlyPaidInstls = scheduleList.stream().filter((item)->{
-			return  item.getLastPaidDate1()!= null;
+			return  item.getLastPaidDate1()!= null && (clfGroupLoan.getRescheduleDate() == null || item.getInstallmentDate1().compareTo(clfGroupLoan.getRescheduleDate()) >= 0);
 		}).collect(Collectors.toList());
 		if(onlyPaidInstls.size()>0){
 			return onlyPaidInstls.get(onlyPaidInstls.size()-1);
@@ -2871,6 +2871,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 		return  null;
 	}
 
+//	@@@
 	public void processLoanPaymentVouchers(){
        List<ClfFinTxnDetMemEntity> clfFinTxnDetMemEntityList = clfFinTxnDetMemDao.getUnProcessedPayments();
        List<ClfMemLoanScheduleEntity> updatedInstallments = new ArrayList<>();
@@ -2887,7 +2888,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 			 for (ClfMemLoanScheduleEntity clfMemLoanScheduleEntity : futureInsts) {
 				 //fixed principal
 				 //   if (clfMemLoanScheduleEntity.getInstallmentType() == 1) {
-				 ClfMemLoanScheduleEntity lastPaidInstallment = this.getLastPaidInstallment(clfMemLoanScheduleEntityList);
+				 ClfMemLoanScheduleEntity lastPaidInstallment = this.getLastPaidInstallment(clfMemLoanScheduleEntityList, clfMemLoanEntity);
 
 				 Calendar cal = Calendar.getInstance();
 				 BigInteger loanOsActual;
@@ -2895,6 +2896,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 if (lastPaidInstallment != null) {
 					 loanOsActual = lastPaidInstallment.getLoanOsActual()!=null?lastPaidInstallment.getLoanOsActual():lastPaidInstallment.getLoanOsSchedule();
 					 cal.setTime(lastPaidInstallment.getLastPaidDate1());
+
 					 if (lastPaidInstallment.getInterestDemandActual() != null) {
 						 Integer intrestRepaid = lastPaidInstallment.getInterestRePaid() == null ? 0 : lastPaidInstallment.getInterestRePaid();
 						 //if any partially paid intrest in last payment
@@ -2903,21 +2905,28 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 				 } else {
 					 //if not installment paid then disbursed date of loan --> for first installment
 					 ClfMtgDetailsEntity mtgDetails  = clfMtgDetailsDao.findMtgDetailsByCboIdAndMtgNo(clfMemLoanEntity.getCboId(), clfMemLoanEntity.getMtgNo());
-					 
+
+					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+					 /*
+					  * If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
+					  * As for cutoff over due amount is added for the first installment prinicpal demand.
+					  */
+					 loanOsActual = clfMemLoanScheduleEntityList.get(0).getLoanOsSchedule().add(BigInteger.valueOf(clfMemLoanScheduleEntityList.get(0).getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+
 					 if(mtgDetails != null && mtgDetails.getMtgType() == ServiceConstants.cutOffMtgType){
 							cal.setTime(mtgDetails.getMtgDate1());
 					 }
 
-					 else{
+					 else if(clfMemLoanEntity.getRescheduleDate() == null){
 						 cal.setTime(clfMemLoanEntity.getEffectiveDate());
-					 }
+					 }else{
+						 cal.setTime(clfMemLoanEntity.getRescheduleDate());
+						 ClfMemLoanScheduleEntity scheduleEntity = clfMemLoanScheduleEntityList.stream().filter((el) -> {
+							 return el.getLastPaidDate1() == null;
+						 }).collect(Collectors.toList()).get(0);
 
-//					 loanOsActual = BigInteger.valueOf(clfMemLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
-					 /*
-					  * If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
-					  * As for cutoff over due amount is added for the first installment prinicpal demand.
-					 */
-					 loanOsActual = clfMemLoanScheduleEntityList.get(0).getLoanOsSchedule().add(BigInteger.valueOf(clfMemLoanScheduleEntityList.get(0).getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+						 loanOsActual = scheduleEntity.getLoanOsSchedule().add(BigInteger.valueOf(scheduleEntity.getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+					 }
 				 }
 
 				 Date lastMonthInstlDate = cal.getTime();
@@ -2935,7 +2944,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 					 currentPrincipal = currentPrincipal - loanrepaid;
 				 }
 				 Integer currentInterest = Math.round(loanOsActual.intValue() * clfMemLoanEntity.getInterestRate() * (Float.valueOf(days) / 365) / 100) + osIntrest;
-				 if(lastPaidInstallment == null && clfMemLoanEntity.getInterestOverdue() != null){
+				 if(lastPaidInstallment == null && (clfMemLoanEntity.getInterestOverdue() != null || clfMemLoanEntity.getRescheduleDate() != null)){
 					 currentInterest += clfMemLoanEntity.getInterestOverdue();
 				 }
 				 Integer totalCurDemand = currentPrincipal + currentInterest;
@@ -3053,7 +3062,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 
 					//fixed principal
 					//   if (clfMemLoanScheduleEntity.getInstallmentType() == 1) {
-					ClfGroupLoanScheduleEntity lastPaidInstallment = this.getLastPaidGrpInstallment(clfGroupLoanScheduleEntityList);
+					ClfGroupLoanScheduleEntity lastPaidInstallment = this.getLastPaidGrpInstallment(clfGroupLoanScheduleEntityList, clfGroupLoanEntity);
 
 					Calendar cal = Calendar.getInstance();
 					BigInteger loanOsActual;
@@ -3074,19 +3083,30 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						}
 
 						else{
-							cal.setTime(clfGroupLoanEntity.getDisbursementDate1());
+							if(clfGroupLoanEntity.getRescheduleDate() == null){
+								cal.setTime(clfGroupLoanEntity.getEffectiveDate());
+							}else{
+								cal.setTime(clfGroupLoanEntity.getRescheduleDate());
+								ClfGroupLoanScheduleEntity scheduleEntity = clfGroupLoanScheduleEntityList.stream().filter(el -> {
+									return el.getLastPaidDate1() == null;
+								}).collect(Collectors.toList()).get(0);
+								//						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+								/*
+								 * If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
+								 * As for cutoff over due amount is added for the first installment prinicpal demand.
+								 */
+								loanOsActual = scheduleEntity.getLoanOsSchedule().add(BigInteger.valueOf(scheduleEntity.getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
+							}
 						}
-//						loanOsActual = BigInteger.valueOf(clfGroupLoanEntity.getAmount()); //clfMemLoanScheduleEntity.getLoanOsSchedule();
-						/*
-						* If there is no repayment calculating loanOs actual by adding principal demand and loanOs Scheadule
-						* As for cutoff over due amount is added for the first installment prinicpal demand.
-						*/
 						loanOsActual = clfGroupLoanScheduleEntityList.get(0).getLoanOsSchedule().add(BigInteger.valueOf(clfGroupLoanScheduleEntityList.get(0).getPrincipalDemand())); //clfMemLoanScheduleEntity.getLoanOsSchedule();
 					}
 
+					Long days = 0L;
 					Date lastMonthInstlDate = cal.getTime();
 					Long diffInMillies2 = Math.abs(txnDate.getTime() - lastMonthInstlDate.getTime());
-					Long days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+					if(diffInMillies2 > 0){
+						days = TimeUnit.DAYS.convert(diffInMillies2, TimeUnit.MILLISECONDS);
+					}
 
 					Integer currentPrincipal = clfGroupLoanScheduleEntity.getPrincipalDemand();
 
@@ -3096,7 +3116,7 @@ public class TenantServiceImpl<VoMtgDetDao, VoMemLoanScheduleDao, VoMemLoanDao, 
 						currentPrincipal = currentPrincipal - loanrepaid;
 					}
 					Integer currentInterest = Math.round(loanOsActual.intValue() * clfGroupLoanEntity.getInterestRate() * (Float.valueOf(days) / 365) / 100) + osIntrest;
-					if(lastPaidInstallment == null && clfGroupLoanEntity.getInterestOverdue() != null){
+					if(lastPaidInstallment == null && (clfGroupLoanEntity.getInterestOverdue() != null || clfGroupLoanEntity.getRescheduleDate() != null) ){
 						currentInterest += clfGroupLoanEntity.getInterestOverdue();
 					}
 					Integer totalCurDemand = currentPrincipal + currentInterest;
