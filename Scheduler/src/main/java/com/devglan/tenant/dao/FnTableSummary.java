@@ -48,6 +48,18 @@ public interface FnTableSummary extends JpaRepository<TestEntity,Long> {
     int fn_tbl_summary_user(@Param("geo_flag")Integer geo_flag, @Param("groupby")String groupby,
                           @Param("wherestr")String wherestr, @Param("insertstr")String insertstr, @Param("yrmn")String yrmn);
 
+    @Transactional
+    @Modifying
+    @Procedure(procedureName = "fn_tbl_summary_bank")
+    int fn_tbl_summary_bank(@Param("geo_flag") Integer geo_flag,@Param("yrmn") String yrmn,@Param("groupby") String groupby,@Param("insertstr") String insertstr,
+                        @Param("wherestr") String wherestr,@Param("wherestr2") String wherestr2);
+
+    @Transactional
+    @Modifying
+    @Procedure(procedureName = "fn_tbl_summary_bank")
+    int fn_tbl_summary_cbobanks(@Param("geo_flag") Integer geo_flag,@Param("yrmn") String yrmn,@Param("groupby") String groupby,@Param("insertstr") String insertstr,
+                                @Param("wherestr") String wherestr,@Param("wherestr2") String wherestr2);
+
 
 
 }
