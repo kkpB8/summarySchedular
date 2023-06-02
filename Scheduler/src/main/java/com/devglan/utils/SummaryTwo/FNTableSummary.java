@@ -18,7 +18,7 @@ public class FNTableSummary {
     }
 
 
-    public void fn_table_summary(String dateBefore){
+    public int fn_table_summary(String dateBefore){
         //5st call
         try {
             fnTableSummaryTwo.fn_table_summary(5, "state_id,district_id,block_id,panchayat_id,village_id", " and p.village_id=s.village_id ",
@@ -58,5 +58,6 @@ public class FNTableSummary {
         }catch (Exception ex){
             logger.info("Summary Scheduler  geo_flag: "+ 5+" error  : "+ex.getMessage());
         }
+        return 1;
     }
 }

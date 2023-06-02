@@ -2,6 +2,7 @@ package com.devglan;
 
 import com.devglan.utils.SummaryTwo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,8 @@ public class SummarySchedularPartTwo {
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
 
 
+
+
     @Autowired
     public SummarySchedularPartTwo(FNTableSummary fnTableSummary, FnTableSummaryUser fnTblSummaryUser, FnTblSummaryOne fnTblSummaryOne, FnTableSummaryBank fnTblSummaryBank, FnTblSummaryCboBanks fnTblSummaryCbobanks, FnTableSummaryMem fnTableSummaryMem, FnTableSummaryVo fnTblSummaryVo, FnTableSummaryClf fnTableSummaryClf) {
         this.fnTableSummary = fnTableSummary;
@@ -38,7 +41,7 @@ public class SummarySchedularPartTwo {
         this.fnTableSummaryClf = fnTableSummaryClf;
     }
 
-     @Scheduled(cron = "0 20 * * * ?")
+     @Scheduled(cron = "${cron.run.regex}")
     //@Scheduled(initialDelay = 5000,fixedRate = 10000000)
     public void summaryTwo(){
         //scheduler runs at 1AM so scheduler will run for a day before

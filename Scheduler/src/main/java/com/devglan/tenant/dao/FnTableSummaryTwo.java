@@ -13,7 +13,7 @@ public interface FnTableSummaryTwo extends JpaRepository<TestEntity,Long> {
     @Transactional
     @Modifying
     @Procedure( procedureName = "fn_tbl_summary")
-        // @Query(value="call fn_tbl_summary(:geo_flag,:groupby,:wherestr,:insertstr,:yrmn);",nativeQuery = true)
+        //@Query(value="call fn_tbl_summary(:geo_flag,:groupby,:wherestr,:insertstr,:yrmn);",nativeQuery = true)
     int fn_table_summary(@Param("geo_flag")Integer geo_flag, @Param("groupby")String groupby,
                          @Param("wherestr")String wherestr, @Param("insertstr")String insertstr, @Param("yrmn")String yrmn);
 
