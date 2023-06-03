@@ -46,7 +46,6 @@ public class SummarySchedularPartTwo {
     public void summaryTwo(){
         //scheduler runs at 1AM so scheduler will run for a day before
         Calendar cal  = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
         String dateBefore = dateFormat.format(new Date(cal.getTimeInMillis()));
         String table_name="dynamic_lokos_ha";
         Date date=new Date();
